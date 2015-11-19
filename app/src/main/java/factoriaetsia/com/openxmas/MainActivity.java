@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
     private static final int MENU_VER_OPCIONES = 4;
     private static final int MENU_SALIR = 5;
     private static final int MENU_SCORE = 6;
+    private static final int MENU_QUESTION = 7;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +92,10 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                 android.R.drawable.ic_menu_search);
         menu.add(5, MainActivity.MENU_SCORE, 0, R.string.Score).setIcon(
                 android.R.drawable.ic_lock_power_off);
+        menu.add(6, MainActivity.MENU_QUESTION, 0, R.string.Question).setIcon(
+                android.R.drawable.ic_lock_power_off);
 
-        menu.add(6, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
+        menu.add(7, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
                 android.R.drawable.ic_lock_power_off);
 
         return true;
@@ -111,23 +114,6 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                             (int) (currentLocation.getLongitude() * 1E6));
 
                 }
-			/*
-			 * startActivity(intent);
-			 */
-
-                /*if (currentLocation != null) {
-                    // Intent intent = new Intent(getBaseContext(),
-                    // GoogleMapsActivity.class);
-                    intent.putExtra("latitud",
-                            (int) (currentLocation.getLatitude() * 1E6));
-                    intent.putExtra("longitud",
-                            (int) (currentLocation.getLongitude() * 1E6));
-                    intent.putExtra("latitud",
-                            currentLocation.getAltitude());
-*/
-                // Intent intent = new Intent(android.content.Intent.ACTION_VIEW
-                // ,Uri.parse("geo:"+ currentLocation.getLongitude() + "," +
-                // currentLocation.getLatitude()+ "?z=20"));
 
 
                 startActivity(intent);
@@ -140,6 +126,16 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                         WelcomeActivity.class);
 
                 startActivity(intentMasCercanos);
+
+                return true;
+
+            case MainActivity.MENU_QUESTION:
+
+
+                Intent questionIntent = new Intent(getBaseContext(),
+                        QuestionActivity.class);
+
+                startActivity(questionIntent);
 
                 return true;
             case MainActivity.MENU_SCORE:
@@ -195,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
 
     private void buscarGPS() {
 
-        /*DialogInterface.OnCancelListener dialogCancel = new DialogInterface.OnCancelListener() {
+        DialogInterface.OnCancelListener dialogCancel = new DialogInterface.OnCancelListener() {
 
             public void onCancel(DialogInterface dialog) {
                 Toast.makeText(
@@ -210,11 +206,11 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                 startActivityForResult(settingsIntent, 0);
             }
 
-        };*/
+        };
 
-      /*  pd = ProgressDialog.show(this,
+        pd = ProgressDialog.show(this,
                 "Buscando señal","Estamos procediendo a buscar su localización",
-                true, false, dialogCancel);*/
+                true, false, dialogCancel);
 
         writeSignalGPS();
 
@@ -229,7 +225,11 @@ public class MainActivity extends AppCompatActivity implements Runnable{
 
     public void run() {
 
+
+
+
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
 
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
             try {
 
                 mLocationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 10000, 40, mLocationListener);
+                        LocationManager.GPS_PROVIDER, 100000, 40, mLocationListener);
                 Looper.loop();
                 Looper.myLooper().quit();
             }catch(SecurityException e){
@@ -250,12 +250,15 @@ public class MainActivity extends AppCompatActivity implements Runnable{
         } else if (mLocationManager
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
+
+
             Looper.prepare();
 
             mLocationListener = new MyLocationListener();
+
             try {
                 mLocationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, 10000, 40,
+                        LocationManager.NETWORK_PROVIDER, 100000, 40,
                         mLocationListener);
                 Looper.loop();
              Looper.myLooper().quit();
@@ -319,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                     pd = null;
                     Toast.makeText(
                             getBaseContext(),
-                           "Señal no encontrada",
+                           "Señal encontrada",
                             Toast.LENGTH_LONG).show();
 
                     // openOptionsMenu();
