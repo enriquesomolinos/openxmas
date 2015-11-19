@@ -1,7 +1,12 @@
 package factoriaetsia.com.openxmas;
 
 import  factoriaetsia.com.util.*;
+
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements Runnable{
     private static final int MENU_VER_OPCIONES = 4;
     private static final int MENU_SALIR = 5;
     private static final int MENU_SCORE = 6;
+    private static final int MENU_NOTIFICACION = 7;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +76,27 @@ public class MainActivity extends AppCompatActivity implements Runnable{
     }
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void sendNotification() {
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(getBaseContext(), MapActivity.class);
+        // use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntent = PendingIntent.getActivity(getBaseContext(), (int) System.currentTimeMillis(), intent, 0);
+
+        // build notification
+        // the addAction re-use the same intent to keep the example short
+        Notification n  = new Notification.Builder(getBaseContext())
+                .setContentTitle("OpenXMax")
+                .setContentText("Quieres Ganar Puntos para obtener beneficios OpenBank? Descubre en el Mapa donde estan localizados y Juega.")
+                .setSmallIcon(R.drawable.opxmas)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .addAction(R.drawable.opxmas, "Juega", pIntent)
+                .build();
+        notificationManager.notify(0, n);
+    }
 
     
 
@@ -92,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements Runnable{
         menu.add(5, MainActivity.MENU_SCORE, 0, R.string.Score).setIcon(
                 android.R.drawable.ic_lock_power_off);
 
-        menu.add(6, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
+        menu.add(6, MainActivity.MENU_NOTIFICACION,0,R.string.Notificacion).setIcon(
+                R.drawable.opxmas);
+
+        menu.add(7, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
                 android.R.drawable.ic_lock_power_off);
 
         return true;
@@ -178,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements Runnable{
 
 
                 return true;
+            case MainActivity.MENU_NOTIFICACION:
+                sendNotification();
+                return true;
+
             case MainActivity.MENU_SALIR:
                 // handleGetReviews();
 
@@ -279,7 +314,6 @@ public class MainActivity extends AppCompatActivity implements Runnable{
             startActivityForResult(settingsIntent, 0);
 
         }
-
     }
 
     private Handler handler = new Handler() {
@@ -307,6 +341,9 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                 Log.v("Latitud:", "" + currentLocation.getLatitude());
                 Log.v("Longitud:", " " + currentLocation.getLongitude());
             }
+
+
+
         }
     };
 
@@ -358,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
 			 */
 
         }
+
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
