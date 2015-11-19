@@ -1,26 +1,17 @@
 package factoriaetsia.com.openxmas;
 
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import  factoriaetsia.com.util.*;
 
-import java.util.List;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -33,223 +24,201 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupActionBar();
-    }
+        setContentView(R.layout.activity_settings);
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
+        final SeekBar seekAhorros = (SeekBar) findViewById(R.id.seekAhorros);
+        final SeekBar seekMesesCasa = (SeekBar) findViewById(R.id.seekMesesCasa);
+        final SeekBar seekMesesTrabajo = (SeekBar) findViewById(R.id.seekMesesTrabajo);
+        final SeekBar seekSalario = (SeekBar) findViewById(R.id.seekSalario);
+        setupBusqueda();
 
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
+        final Configuracion configuracion = Configuracion.getInstance(this);
 
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
+        Button aceptar = (Button) findViewById(R.id.button1);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
+        aceptar.setOnTouchListener(new View.OnTouchListener() {
 
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
+            public boolean onTouch(View arg0, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    arg0.setBackgroundResource(R.drawable.saveg);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    arg0.setBackgroundResource(R.drawable.save);
                 }
-
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
+                return false;
             }
-            return true;
-        }
-    };
+        });
 
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        aceptar.setOnClickListener(new View.OnClickListener() {
 
-        // Trigger the listener immediately with the preference's
-        // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
+            @Override
+            public void onClick(View arg0) {
+                configuracion.putConfiguracion("ahorros",
+                        seekAhorros.getProgress());
+                configuracion.putConfiguracion("salario",
+                        seekSalario.getProgress());
+                configuracion.putConfiguracion("mesescasa",
+                        seekMesesCasa.getProgress());
+                configuracion.putConfiguracion("mesestrabajo",
+                        seekMesesTrabajo.getProgress());
 
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
-    protected boolean isValidFragment(String fragmentName) {
-        return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
-    }
-
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
+                finish();
             }
-            return super.onOptionsItemSelected(item);
-        }
+        });
     }
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
-            setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+    public void setupBusqueda() {
+        final SeekBar seekSalario = (SeekBar) findViewById(R.id.seekSalario);
+        seekSalario.setMax(100);
+
+
+
+        final SeekBar seekMesesTrabajo = (SeekBar) findViewById(R.id.seekMesesTrabajo);
+        seekMesesTrabajo.setMax(30);
+        final SeekBar seekMesesCasa = (SeekBar) findViewById(R.id.seekMesesCasa);
+        seekMesesCasa.setMax(60);
+        final SeekBar seekAhorros = (SeekBar) findViewById(R.id.seekAhorros);
+        seekAhorros.setMax(20);
+        int salario = Configuracion.getInstance(this)
+                .getConfiguracionInt("salario");
+        int mesestrabajo = Configuracion.getInstance(this)
+                .getConfiguracionInt("mesestrabajo");
+        int mesescasa = Configuracion.getInstance(this)
+                .getConfiguracionInt("mesescasa");
+        int ahorros = Configuracion.getInstance(this)
+                .getConfiguracionInt("ahorros");
+
+        if (salario > 0) {
+            seekSalario.setProgress(salario);
+        } else {
+            seekSalario.setProgress(50);
+        }
+        if (mesestrabajo > 0) {
+            seekMesesTrabajo.setProgress(mesestrabajo);
+        } else {
+            seekMesesTrabajo.setProgress(6);
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        if (mesescasa > 0) {
+            seekMesesCasa.setProgress(mesescasa);
+        } else {
+            seekMesesCasa.setProgress(24);
         }
+        if (ahorros > 0) {
+            seekAhorros.setProgress(ahorros);
+        } else {
+            seekAhorros.setProgress(20);
+        }
+
+
+        final TextView txtAhorro = (TextView) findViewById(R.id.textAhorros);
+        final TextView txtSalario = (TextView) findViewById(R.id.textsalario);
+        final TextView txtMesesCasa = (TextView) findViewById(R.id.textTiempoCasa);
+        final TextView txtmesesTrabajo = (TextView) findViewById(R.id.textTiempoTrabajo);
+
+
+        txtmesesTrabajo.setText(seekMesesTrabajo.getProgress() + " Meses");
+        seekMesesTrabajo
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar arg0) {
+                        if (seekMesesTrabajo.getProgress() == 0)
+                            seekMesesTrabajo.setProgress(1);
+                        txtmesesTrabajo.setText(seekMesesTrabajo.getProgress()
+                                + " Meses");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar arg0) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void onProgressChanged(SeekBar arg0, int arg1,
+                                                  boolean arg2) {
+                        txtmesesTrabajo.setText(seekMesesTrabajo.getProgress()
+                                + " Meses");
+                    }
+                });
+
+        txtMesesCasa.setText(seekMesesCasa.getProgress() + " Meses");
+        seekMesesCasa
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar arg0) {
+                        if (seekMesesCasa.getProgress() == 0)
+                            seekMesesCasa.setProgress(1);
+                        txtMesesCasa.setText(seekMesesCasa.getProgress()
+                                + " Meses");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar arg0) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void onProgressChanged(SeekBar arg0, int arg1,
+                                                  boolean arg2) {
+                        txtMesesCasa.setText(seekMesesCasa.getProgress()
+                                + " Meses");
+                    }
+                });
+
+        txtSalario.setText(seekSalario.getProgress() + " Mil Euros");
+        seekSalario
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar arg0) {
+                        if (seekSalario.getProgress() == 0)
+                            seekSalario.setProgress(1);
+                        txtSalario.setText(seekSalario.getProgress()
+                                + " Mil Euros");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar arg0) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void onProgressChanged(SeekBar arg0, int arg1,
+                                                  boolean arg2) {
+                        txtSalario.setText(seekSalario.getProgress()
+                                + " Mil Euros");
+                    }
+                });
+
+
+        txtAhorro.setText(seekAhorros.getProgress() + " Mil Euros");
+        seekAhorros
+                .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar arg0) {
+                        if (seekAhorros.getProgress() == 0)
+                            seekAhorros.setProgress(1);
+                        txtAhorro.setText(seekAhorros.getProgress()
+                                + " Mil Euros");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar arg0) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void onProgressChanged(SeekBar arg0, int arg1,
+                                                  boolean arg2) {
+                        txtAhorro.setText(seekAhorros.getProgress()
+                                + " Mil Euros");
+                    }
+                });
     }
 
-    /**
-     * This fragment shows data and sync preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DataSyncPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
-            setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
 }
