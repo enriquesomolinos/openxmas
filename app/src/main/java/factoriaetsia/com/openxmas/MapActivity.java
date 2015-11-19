@@ -64,7 +64,7 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         LinearLayout back  = new LinearLayout(this);
-        back.setBackground(getResources().getDrawable(R.drawable.dibujos));
+        back.setBackground(getResources().getDrawable(R.drawable.mapafondo));
         frame.addView(back);
         setContentView(frame);
 
@@ -81,15 +81,15 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         mapView.postInvalidate();
-            mapView.getController().animateTo(miUbicacion);
+            mapView.getController().animateTo(center);
             mapView.getController().setZoom(16);
 
-     /*   mapView.getManager().addMapLocation(
+        /*mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 1", 40411374, -3693841,
-                        MapLocation.TYPE_RENO));
+                        MapLocation.TYPE_BUBBLE_OFF));
         mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 2", 40411460, -3693835,
-                        MapLocation.TYPE_ARBOL));
+                        MapLocation.TYPE_BUBBLE));
         mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 3", 40411467 , -3693961,
                         MapLocation.TYPE_BUBBLE));
