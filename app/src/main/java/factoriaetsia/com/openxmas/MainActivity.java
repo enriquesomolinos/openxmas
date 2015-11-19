@@ -54,7 +54,10 @@ public class MainActivity extends AppCompatActivity implements Runnable{
     private static final int MENU_VER_OPCIONES = 4;
     private static final int MENU_SALIR = 5;
     private static final int MENU_SCORE = 6;
-    private static final int MENU_NOTIFICACION = 7;
+
+    private static final int MENU_QUESTION = 7;
+
+    private static final int MENU_NOTIFICACION = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +123,12 @@ public class MainActivity extends AppCompatActivity implements Runnable{
         menu.add(5, MainActivity.MENU_SCORE, 0, R.string.Score).setIcon(
                 android.R.drawable.ic_lock_power_off);
 
-        menu.add(6, MainActivity.MENU_NOTIFICACION,0,R.string.Notificacion).setIcon(
+        menu.add(6, MainActivity.MENU_QUESTION,0,R.string.Question).setIcon(
+                R.drawable.opxmas);
+        menu.add(7, MainActivity.MENU_NOTIFICACION,0,R.string.Notificacion).setIcon(
                 R.drawable.opxmas);
 
-        menu.add(7, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
+        menu.add(8, MainActivity.MENU_SALIR, 0, R.string.Salir).setIcon(
                 android.R.drawable.ic_lock_power_off);
 
         return true;
@@ -171,6 +176,16 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                         WelcomeActivity.class);
 
                 startActivity(intentMasCercanos);
+
+                return true;
+
+            case MainActivity.MENU_QUESTION:
+
+
+                Intent questionIntent = new Intent(getBaseContext(),
+                        QuestionActivity.class);
+
+                startActivity(questionIntent);
 
                 return true;
             case MainActivity.MENU_SCORE:
@@ -230,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
 
     private void buscarGPS() {
 
-        /*DialogInterface.OnCancelListener dialogCancel = new DialogInterface.OnCancelListener() {
+        DialogInterface.OnCancelListener dialogCancel = new DialogInterface.OnCancelListener() {
 
             public void onCancel(DialogInterface dialog) {
                 Toast.makeText(
@@ -245,11 +260,11 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                 startActivityForResult(settingsIntent, 0);
             }
 
-        };*/
+        };
 
-      /*  pd = ProgressDialog.show(this,
+        pd = ProgressDialog.show(this,
                 "Buscando señal","Estamos procediendo a buscar su localización",
-                true, false, dialogCancel);*/
+                true, false, dialogCancel);
 
         writeSignalGPS();
 
@@ -356,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                     pd = null;
                     Toast.makeText(
                             getBaseContext(),
-                           "Señal no encontrada",
+                           "Señal  encontrada",
                             Toast.LENGTH_LONG).show();
 
                     // openOptionsMenu();

@@ -60,7 +60,7 @@
                     android:layout_width="200px"
                     android:layout_height="200px"
                     android:id="@+id/imageA"
-                    android:background="@drawable/a"
+                    android:background="@drawable/bola1"
                     android:layout_marginLeft="20dp" />
 
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="200px"
                     android:layout_height="200px"
                     android:id="@+id/imageB"
-                    android:background="@drawable/b"
+                    android:background="@drawable/bola2"
                     android:layout_marginLeft="20dp" />
 
                 <TextView
@@ -108,7 +108,7 @@
                     android:layout_width="200px"
                     android:layout_height="200px"
                     android:id="@+id/imageC"
-                    android:background="@drawable/c"
+                    android:background="@drawable/bola3"
                     android:layout_marginLeft="20dp" />
 
                 <TextView
