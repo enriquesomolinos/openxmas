@@ -79,10 +79,12 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         mapView.postInvalidate();
-        if(miUbicacion!=null) {
-            mapView.getController().animateTo(miUbicacion);
-            mapView.getController().setZoom(16);
+        if(center!=null) {
+            mapView.getController().animateTo(center);
+
         }
+        mapView.getController().setZoom(16);
+
         /*mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 1", 40411374, -3693841,
                         MapLocation.TYPE_BUBBLE_OFF));
@@ -189,6 +191,10 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
     };
 
     private void pintarUnicoDestino(GeoPoint p) {
+        GeoPoint center = new GeoPoint(40411403, -3693940);
+        mapView.getController().animateTo(center);
+
+
         mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Estas Aqui", p,
                         MapLocation.TYPE_ANDROID));
