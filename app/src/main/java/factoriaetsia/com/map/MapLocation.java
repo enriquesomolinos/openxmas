@@ -79,7 +79,7 @@ public class MapLocation {
 
 				break;
 		case TYPE_ANDROID:
-			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.android);
+			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.usuario2);
 
 			break;
 			case TYPE_BACKGROUND:
@@ -155,7 +155,7 @@ public class MapLocation {
 		mapView.getProjection().toPixels(this.getPoint(), p);
 		
     	if (shadow) {
-    		canvas.drawBitmap(this.getShadowIcon(), p.x, p.y - this.getShadowIcon().getHeight(),null);
+
     	} else {
 			canvas.drawBitmap(this.getDrawIcon(), p.x -this.getDrawIcon().getWidth()/2, p.y -this.getDrawIcon().getHeight(),null);
     	}

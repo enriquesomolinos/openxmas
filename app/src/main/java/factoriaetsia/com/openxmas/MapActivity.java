@@ -45,14 +45,14 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         Bundle extras = getIntent().getExtras();
-      //  setContentView(R.layout.activity_map);
+        //  setContentView(R.layout.activity_map);
 
-        int latitud =0;
-        int longitud =0;
+        int latitud = 0;
+        int longitud = 0;
         if (extras != null) {
 
-             latitud = (extras.getInt("latitud"));
-             longitud = (extras.getInt("longitud"));
+            latitud = (extras.getInt("latitud"));
+            longitud = (extras.getInt("longitud"));
             miUbicacion = new GeoPoint(latitud, longitud);
 
         }
@@ -64,8 +64,7 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
         frame.addView(mapView);
 
 
-
-        LinearLayout back  = new LinearLayout(this);
+        LinearLayout back = new LinearLayout(this);
         back.setBackground(getResources().getDrawable(R.drawable.dibujooors2));
         frame.addView(back);
         setContentView(frame);
@@ -80,8 +79,8 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         mapView.postInvalidate();
-            mapView.getController().animateTo(miUbicacion);
-            mapView.getController().setZoom(16);
+        mapView.getController().animateTo(miUbicacion);
+        mapView.getController().setZoom(16);
 
         /*mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 1", 40411374, -3693841,
@@ -96,14 +95,14 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
                 new MapLocation(mapView, "Punto de encuentro 4", 40411380, -3693966,
                         MapLocation.TYPE_BUBBLE));
 */
-      /*  mapView.getManager().addMapLocation(
+        mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Estas aqui", miUbicacion,
                         MapLocation.TYPE_ANDROID));
-        mapView.invalidate();*/
+        mapView.invalidate();
 
         writeSignalGPS();
-    }
 
+    }
     private void writeSignalGPS() {
 
         Thread thread = new Thread(this);
@@ -146,7 +145,7 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
             try {
                 mLocationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, 100000, 0,
+                        LocationManager.NETWORK_PROVIDER, 100, 0,
                         mLocationListener);
                 Looper.loop();
                 Looper.myLooper().quit();
@@ -187,9 +186,9 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
     };
 
     private void pintarUnicoDestino(GeoPoint p) {
-       /* mapView.getManager().addMapLocation(
+        mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Estas Aqui", p,
-                        MapLocation.TYPE_BUBBLE));*/
+                        MapLocation.TYPE_ANDROID));
 
 
     }
@@ -198,7 +197,10 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
         @Override
         public void onLocationChanged(Location loc) {
             if (loc != null) {
-
+                Toast.makeText(
+                        getBaseContext(),
+                        "Señal  encontrada:"+loc.getLatitude()+"-"+loc.getLongitude(),
+                        Toast.LENGTH_LONG).show();
 
                 double latitude = loc.getLatitude();
                 double longitude = loc.getLongitude();
@@ -216,7 +218,7 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
                 localizacion.setPoint(miUbicacion);
                 mapView.postInvalidate();
                 mapView.getController().animateTo(miUbicacion);
-                // writeSignalGPS();
+                 writeSignalGPS();
             }
 
         }
