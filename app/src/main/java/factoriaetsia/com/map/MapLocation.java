@@ -60,35 +60,35 @@ public class MapLocation {
 		switch (type) {
 		case TYPE_BUBBLE:
 			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(), R.drawable.bubble);
-			shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 			break;
 			case TYPE_RENO:
 				drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(), R.drawable.reno);
-				shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 				break;
 			case TYPE_NIEVE:
 				drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(), R.drawable.nieveman);
-				shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 				break;
 			case TYPE_ARBOL:
 				drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(), R.drawable.arbooool);
-				shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 				break;
 			case TYPE_ELFO:
 				drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(), R.drawable.elf);
-				shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 				break;
 		case TYPE_ANDROID:
-			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.usuario);
-			shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.android);
+
 			break;
 			case TYPE_BACKGROUND:
 				drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.mapafondo);
-				shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 				break;
 		default:
 			drawIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_off);
-			shadowIcon = BitmapFactory.decodeResource(mapLocationView.getResources(),R.drawable.bubble_shadow);
+
 			break;
 		}
 	}

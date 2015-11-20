@@ -37,6 +37,8 @@ import android.view.MenuItem;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements Runnable{
 
     ProgressDialog pd;
@@ -182,12 +184,39 @@ public class MainActivity extends AppCompatActivity implements Runnable{
             case MainActivity.MENU_QUESTION:
 
 
-                Intent questionIntent = new Intent(getBaseContext(),
-                        QuestionActivity.class);
 
-                startActivity(questionIntent);
+                int salario =  Configuracion.getInstance(this)
+                        .getConfiguracionInt("salario");
 
-                return true;
+                Intent questionIntent =questionIntent = new Intent(getBaseContext(),
+                        Question1Activity.class);;
+
+                Random r = new Random();
+                int rand = r.nextInt(2);
+
+
+                if(salario< 60){
+                    if(rand==1){
+                        questionIntent = new Intent(getBaseContext(),
+                                Question1Activity.class);
+                    }else{
+                        questionIntent = new Intent(getBaseContext(),
+                                Question2Activity.class);
+                    }
+                }else {
+                    if (rand  ==1) {
+                        questionIntent = new Intent(getBaseContext(),
+                                Question3Activity.class);
+                    } else {
+                        questionIntent = new Intent(getBaseContext(),
+                                Question4Activity.class);
+                    }
+                }
+
+                    startActivity(questionIntent);
+
+                    return true;
+
             case MainActivity.MENU_SCORE:
 
 

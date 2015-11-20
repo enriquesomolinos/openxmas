@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -63,14 +64,15 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
         frame.addView(mapView);
 
 
+
         LinearLayout back  = new LinearLayout(this);
-        back.setBackground(getResources().getDrawable(R.drawable.mapafondo));
+        back.setBackground(getResources().getDrawable(R.drawable.dibujooors));
         frame.addView(back);
         setContentView(frame);
 
 
-        mapView.setBuiltInZoomControls(true);
-        mapView.displayZoomControls(true);
+        mapView.setBuiltInZoomControls(false);
+        mapView.displayZoomControls(false);
 
         mapView.invalidate();
 
@@ -81,7 +83,7 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         mapView.postInvalidate();
-            mapView.getController().animateTo(center);
+            mapView.getController().animateTo(miUbicacion);
             mapView.getController().setZoom(16);
 
         /*mapView.getManager().addMapLocation(
@@ -96,8 +98,8 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
         mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 4", 40411380, -3693966,
                         MapLocation.TYPE_BUBBLE));
-
-        mapView.getManager().addMapLocation(
+*/
+       /* mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Estas aqui", miUbicacion,
                         MapLocation.TYPE_ANDROID));*/
         mapView.invalidate();
@@ -188,9 +190,9 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
     };
 
     private void pintarUnicoDestino(GeoPoint p) {
-        mapView.getManager().addMapLocation(
+       /* mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Estas Aqui", p,
-                        MapLocation.TYPE_BUBBLE));
+                        MapLocation.TYPE_BUBBLE));*/
 
 
     }

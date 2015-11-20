@@ -48,6 +48,26 @@
         </activity>
         <activity android:name=".WrongAnswerActivity" >
         </activity>
+        <activity
+            android:name=".Question1Activity"
+            android:label="@string/title_activity_question1"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Question2Activity"
+            android:label="@string/title_activity_question2"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Question3Activity"
+            android:label="@string/title_activity_question2"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Question4Activity"
+            android:label="@string/title_activity_question2"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
