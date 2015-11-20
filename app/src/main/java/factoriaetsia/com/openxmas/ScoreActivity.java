@@ -26,15 +26,7 @@ public class ScoreActivity extends AppCompatActivity {
         TextView regalo2 =(TextView) findViewById(R.id.regalo2);
         TextView regalo3 =(TextView) findViewById(R.id.regalo3);
 
-        if(salario>60){
-            regalo1.setText("este es el texto");
-            regalo2.setText("100 euros");
-            regalo3.setText("antes era");
-        }else{
-            regalo1.setText("este es el texto");
-            regalo2.setText("100 euros");
-            regalo3.setText("antes era");
-        }
+
 
         String resp = "Preguntas correctas: " + correctAnswers;
         correctTect.setText(resp);
@@ -64,6 +56,15 @@ public class ScoreActivity extends AppCompatActivity {
             image2.setImageDrawable(getDrawable(R.drawable.imageb2));
             image3.setImageDrawable(getDrawable(R.drawable.imagec2));
             imageRegalo.setImageDrawable(getDrawable(R.drawable.regalo));
+            if(salario>60){
+                regalo1.setText("Invierte el 100% de la exposición total en renta fija pública y privada con una rentabilidad de ");
+                regalo2.setText("2.5%");
+                regalo3.setText("Oferta anterior: 1% https://www.openbank.es/es/inversion/tipos-fondos/openbank-corto-plazo");
+            }else{
+                regalo1.setText("Domicilia tu nómina, pensión o ingreso mensual en la Cuenta Nómina Open y te ingresamos    :");
+                regalo2.setText("150€");
+                regalo3.setText("Oferta anterior:100€ https://www.openbank.es/es/cuentas-tarjetas/cuenta-nomina");
+            }
         }
 
         Toast.makeText(
