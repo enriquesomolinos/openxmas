@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
         // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntent = PendingIntent.getActivity(getBaseContext(), (int) System.currentTimeMillis(), intent, 0);
 
+
         // build notification
         // the addAction re-use the same intent to keep the example short
         Notification n  = new Notification.Builder(getBaseContext())

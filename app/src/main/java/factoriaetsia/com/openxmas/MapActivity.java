@@ -79,9 +79,10 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
 
 
         mapView.postInvalidate();
-        mapView.getController().animateTo(miUbicacion);
-        mapView.getController().setZoom(16);
-
+        if(miUbicacion!=null) {
+            mapView.getController().animateTo(miUbicacion);
+            mapView.getController().setZoom(16);
+        }
         /*mapView.getManager().addMapLocation(
                 new MapLocation(mapView, "Punto de encuentro 1", 40411374, -3693841,
                         MapLocation.TYPE_BUBBLE_OFF));
@@ -95,9 +96,11 @@ public class MapActivity  extends com.google.android.maps.MapActivity implements
                 new MapLocation(mapView, "Punto de encuentro 4", 40411380, -3693966,
                         MapLocation.TYPE_BUBBLE));
 */
-        mapView.getManager().addMapLocation(
-                new MapLocation(mapView, "Estas aqui", miUbicacion,
-                        MapLocation.TYPE_ANDROID));
+        if(miUbicacion!=null) {
+            mapView.getManager().addMapLocation(
+                    new MapLocation(mapView, "Estas aqui", miUbicacion,
+                            MapLocation.TYPE_ANDROID));
+        }
         mapView.invalidate();
 
         writeSignalGPS();
